@@ -14,5 +14,6 @@ namespace EmployeeAPI.Interfaces
         Task<IEnumerable<Response_Employee_Detail>> GetEmployee();
         Task<IEnumerable<Response_All_StudentDetails>> GetStudents();
         Task<IEnumerable<Response_Student_Details>> GetOneStudent(Request_Student_Details request);
+        Task<int> UpdateCurrencyRate(Request_Update_Student_Details request);
     }
 }

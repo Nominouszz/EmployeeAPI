@@ -94,6 +94,43 @@ namespace EmployeeAPI.Repository
             return result;
         }
 
+        public async Task<int> UpdateCurrencyRate(Request_Update_Student_Details request)
+        {
+            int iStatus = 0;
+            try
+            {
+                var Query = string.Empty;
+                var ps = new DynamicParameters();
+                if (request.Id.ToString().Trim() != "")
+                {
+                    Query = "SELECT count(1) FROM StudentAdminPortalDb.dbo.Student WHERE Id = @Id";
+                    ps.Add("@Id", request.Id);
+
+                    using (var conn = new SqlConnection(_configuration.MyStudentConnectionString))
+                    {
+                        // return a single value
+                        iStatus = Convert.ToInt32(conn.ExecuteScalar(Query, ps, commandType: System.Data.CommandType.Text));
+
+                        if (iStatus > 0)
+                        {
+                            // update
+                            Query = "UPDATE dbo.Student SET FirstName=@FirstName, LastName=@LastName, DateOfBirth=@DateOfBirth, Email=@Email, Mobile=@Mobile, GenderId=@GenderId WHERE Id=@Id";
+
+                        }
+                        else
+                        {
+                            Query = "";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _loggerService.LogError($"[{ DateTime.Now:hh:ss:tt}] :UpdateCurrencyRate : Information => {ex}{Environment.NewLine}", _exceptionHandling.Value.Path);
+            }
+            throw new NotImplementedException();
+        }
+
 
         /*
         public List<Employee> GetAllEmployee()
